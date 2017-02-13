@@ -353,7 +353,8 @@ headers."
 	  ;; update it; that way, the flags can be updated, as well as the path
 	  ;; (which is useful for viewing the raw message)
 	  (when (mu4e~headers-view-this-message-p docid)
-	    (mu4e-view msg mu4e~headers-buffer))
+        ; t: always decrypt for this test
+        (mu4e~proc-view docid mu4e-view-show-images t))
 	  ;; now, if this update was about *moving* a message, we don't show it
 	  ;; anymore (of course, we cannot be sure if the message really no
 	  ;; longer matches the query, but this seem a good heuristic.  if it
