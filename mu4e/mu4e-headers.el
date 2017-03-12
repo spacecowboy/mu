@@ -40,6 +40,7 @@
 (require 'mu4e-compose)
 (require 'mu4e-actions)
 (require 'mu4e-message)
+(require 'mu4e-view)
 
 ;; the headers view
 (defgroup mu4e-headers nil
@@ -352,8 +353,9 @@ headers."
 	  ;; if we're actually viewing this message (in mu4e-view mode), we
 	  ;; update it; that way, the flags can be updated, as well as the path
 	  ;; (which is useful for viewing the raw message)
-	  (when (mu4e~headers-view-this-message-p docid)
-	    (mu4e-view msg mu4e~headers-buffer))
+	  ;(when (mu4e~headers-view-this-message-p docid)
+        ; t: always decrypt for this test
+      ;  (mu4e~proc-view docid mu4e-view-show-images t))
 	  ;; now, if this update was about *moving* a message, we don't show it
 	  ;; anymore (of course, we cannot be sure if the message really no
 	  ;; longer matches the query, but this seem a good heuristic.  if it
@@ -1541,6 +1543,7 @@ window. "
       (mu4e-error "Cannot get a message view"))
     (select-window viewwin)
     (switch-to-buffer (mu4e~headers-get-loading-buf))
+    (mu4e~view-mark-as-read-maybe msg)
     (mu4e~proc-view docid mu4e-view-show-images decrypt)))
 
 (defun mu4e-headers-rerun-search ()
